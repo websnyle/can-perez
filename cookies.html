@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Política de Cookies · Can Pérez</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --primary: #3D1F0A; --accent: #C8893A; --bg: #FBF8F4; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Lato', sans-serif; background: var(--bg); color: #2D1A0E; line-height: 1.8; }
+    .top-bar { background: var(--primary); padding: 1rem 2rem; display: flex; align-items: center; gap: 1rem; }
+    .top-bar a { color: rgba(255,255,255,.7); text-decoration: none; font-size: .85rem; }
+    .top-bar a:hover { color: #fff; }
+    .top-bar span { color: rgba(255,255,255,.3); }
+    .hero { background: var(--primary); padding: 3rem 2rem 4rem; text-align: center; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: #fff; }
+    .hero p { color: rgba(255,255,255,.65); margin-top: .5rem; font-size: .9rem; }
+    .content { max-width: 760px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+    h2 { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--primary); margin: 2rem 0 .75rem; }
+    p, li { font-size: .95rem; color: #3D2410; margin-bottom: .75rem; }
+    ul { padding-left: 1.5rem; }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; font-size: .88rem; }
+    th { background: var(--primary); color: #fff; padding: .6rem 1rem; text-align: left; }
+    td { padding: .6rem 1rem; border-bottom: 1px solid #E8DDD0; vertical-align: top; }
+    a { color: var(--accent); }
+    .consent-box {
+      background: #fff; border: 1.5px solid #E8DDD0; border-radius: 10px;
+      padding: 1.5rem; margin: 2rem 0; display: flex; align-items: center;
+      justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    }
+    .consent-box p { margin: 0; font-size: .9rem; }
+    .btn-accept { background: var(--accent); color: #fff; border: none; padding: .55rem 1.3rem; border-radius: 30px; font-weight: 700; font-size: .88rem; cursor: pointer; font-family: 'Lato', sans-serif; }
+    .btn-reject { background: transparent; color: #7A5C40; border: 1px solid #C8B8A0; padding: .55rem 1.3rem; border-radius: 30px; font-size: .88rem; cursor: pointer; font-family: 'Lato', sans-serif; margin-left: .5rem; }
+    .status-msg { font-size: .85rem; font-style: italic; color: #7A5C40; margin-top: .5rem; }
+    .footer { background: #180900; text-align: center; padding: 1.5rem; font-size: .78rem; color: rgba(255,255,255,.4); }
+    .footer a { color: rgba(255,255,255,.4); text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="index.html">← Volver a Can Pérez</a>
+  <span>·</span>
+  <a href="aviso-legal.html">Aviso legal</a>
+  <span>·</span>
+  <a href="privacidad.html">Privacidad</a>
+</div>
+
+<div class="hero">
+  <h1>Política de Cookies</h1>
+  <p>Conforme al art. 22.2 LSSI-CE y la Directiva 2009/136/CE · Última actualización: mayo 2025</p>
+</div>
+
+<div class="content">
+
+  <h2>¿Qué son las cookies?</h2>
+  <p>Las cookies son pequeños archivos de texto que los sitios web almacenan en tu dispositivo cuando los visitas. Sirven para que el sitio funcione correctamente, recuerde tus preferencias o recopile información estadística anónima.</p>
+
+  <h2>Cookies que utilizamos</h2>
+  <table>
+    <tr>
+      <th>Cookie</th>
+      <th>Tipo</th>
+      <th>Finalidad</th>
+      <th>Duración</th>
+    </tr>
+    <tr>
+      <td><code>cookie_consent</code></td>
+      <td>Técnica / esencial</td>
+      <td>Guarda tu elección sobre cookies (aceptar o rechazar) para no volver a preguntarte</td>
+      <td>Indefinida (localStorage)</td>
+    </tr>
+    <tr>
+      <td><code>_ga, _ga_*</code></td>
+      <td>Analítica (GA4)</td>
+      <td>Google Analytics 4 — mide visitas, páginas vistas y origen del tráfico de forma anónima. Solo se activa si aceptas.</td>
+      <td>2 años</td>
+    </tr>
+  </table>
+
+  <h2>No usamos cookies de publicidad ni de redes sociales</h2>
+  <p>Este sitio web no instala cookies de seguimiento publicitario ni píxeles de redes sociales (Meta, TikTok, etc.). Los botones de WhatsApp e Instagram son simples enlaces y no generan cookies de seguimiento.</p>
+
+  <h2>Gestionar tu consentimiento</h2>
+  <p>Puedes cambiar tu preferencia en cualquier momento:</p>
+
+  <div class="consent-box">
+    <div>
+      <p><strong>Cookies analíticas (GA4)</strong> — actualmente: <span id="current-status">cargando…</span></p>
+      <p class="status-msg">Puedes cambiar tu elección cuando quieras sin que afecte a la navegación.</p>
+    </div>
+    <div>
+      <button class="btn-accept" onclick="changeConsent('accepted')">Aceptar analítica</button>
+      <button class="btn-reject" onclick="changeConsent('rejected')">Rechazar analítica</button>
+    </div>
+  </div>
+
+  <h2>Cómo desactivar cookies desde tu navegador</h2>
+  <ul>
+    <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener">Google Chrome</a></li>
+    <li><a href="https://support.mozilla.org/es/kb/habilitar-y-deshabilitar-cookies-sitios-web-rastrear-preferencias" target="_blank" rel="noopener">Mozilla Firefox</a></li>
+    <li><a href="https://support.apple.com/es-es/guide/safari/sfri11471/mac" target="_blank" rel="noopener">Safari</a></li>
+    <li><a href="https://support.microsoft.com/es-es/microsoft-edge/eliminar-las-cookies-en-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09" target="_blank" rel="noopener">Microsoft Edge</a></li>
+  </ul>
+  <p>Ten en cuenta que deshabilitar las cookies puede afectar al funcionamiento de algunos sitios web.</p>
+
+  <h2>Más información</h2>
+  <p>Para cualquier consulta sobre el uso de cookies, puedes contactarnos en <strong>[correo electrónico]</strong> o consultar nuestra <a href="privacidad.html">Política de Privacidad</a>.</p>
+
+</div>
+
+<div class="footer">
+  © 2025 Can Pérez Restaurant · <a href="aviso-legal.html">Aviso legal</a> · <a href="privacidad.html">Privacidad</a>
+</div>
+
+<script>
+  const statusEl = document.getElementById('current-status');
+  const consent  = localStorage.getItem('cookie_consent');
+  statusEl.textContent = consent === 'accepted' ? 'aceptadas' : consent === 'rejected' ? 'rechazadas' : 'no elegido aún';
+
+  function changeConsent(choice) {
+    localStorage.setItem('cookie_consent', choice);
+    statusEl.textContent = choice === 'accepted' ? 'aceptadas' : 'rechazadas';
+    alert(choice === 'accepted' ? 'Cookies analíticas activadas. Gracias.' : 'Cookies analíticas desactivadas.');
+  }
+</script>
+</body>
+</html>
