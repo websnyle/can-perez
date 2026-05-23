@@ -1446,6 +1446,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 `_Enviado desde la web de Can Pérez_`;
 
     window.open('https://wa.me/34611836813?text=' + encodeURIComponent(msg), '_blank');
+    dataLayer.push({ event: 'reserva_enviada' });
 
     document.getElementById('reservaForm').style.display = 'none';
     document.getElementById('reservaSuccess').style.display = 'flex';
