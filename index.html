@@ -578,6 +578,25 @@
     }
     .btn-wa-submit:hover { background: #1da851; transform: translateY(-1px); }
     .reserva-note { text-align: center; font-size: .76rem; color: #9A7A60; margin-top: .7rem; font-style: italic; }
+    .reserva-completo {
+      display: none; flex-direction: column; align-items: center;
+      justify-content: center; padding: 3rem 2rem; text-align: center; gap: 1rem;
+    }
+    .completo-icon {
+      width: 72px; height: 72px; background: #FFF3E0; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; color: var(--color-accent);
+    }
+    .completo-title { font-family: var(--font-serif); font-size: 1.55rem; color: var(--color-primary); font-weight: 700; margin: 0; }
+    .completo-text { font-size: .9rem; color: #7A5C40; max-width: 310px; line-height: 1.6; margin: 0; }
+    .completo-phone {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--color-primary); color: #fff;
+      padding: .75rem 1.6rem; border-radius: 30px; text-decoration: none;
+      font-weight: 700; font-size: .9rem; margin-top: .4rem;
+      transition: background var(--t);
+    }
+    .completo-phone:hover { background: #5a2e12; }
     .reserva-success {
       display: none; flex-direction: column; align-items: center;
       justify-content: center; padding: 3rem 2rem; text-align: center; gap: .9rem;
@@ -1270,6 +1289,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </button>
         <p class="reserva-note">Al pulsar se abrirá WhatsApp con tu solicitud ya redactada</p>
       </form>
+      <div class="reserva-completo" id="reservaCompleto">
+        <div class="completo-icon"><i class="fa-solid fa-moon"></i></div>
+        <p class="completo-title">Hoy estamos completos</p>
+        <p class="completo-text">Para este día no quedan mesas disponibles. Puedes reservar para otro día o llamarnos directamente.</p>
+        <a href="tel:+34611836813" class="completo-phone">
+          <i class="fa-solid fa-phone"></i> 611 836 813
+        </a>
+      </div>
       <div class="reserva-success" id="reservaSuccess">
         <div class="success-icon"><i class="fa-solid fa-check"></i></div>
         <p class="success-title">Solicitud enviada</p>
@@ -1417,6 +1444,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     banner.classList.remove('visible');
     dataLayer.push({ 'event': 'cookie_consent_updated', 'cookie_consent': choice });
   }
+
+  // Control disponibilidad — Jefferson cambia celda A1 del Sheet: "abierto" / "completo"
+  const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSmrqgUfn7WhDeimLJKyVdhPK9dW3hlCQfzvsTz4B2CQuUanimBuRH9p9m5N1-IkqawbhQlRDOdh7Yp/pub?gid=0&single=true&output=csv';
+  fetch(SHEET_URL + '&nocache=' + Date.now(), { cache: 'no-store' })
+    .then(r => r.text())
+    .then(txt => {
+      if (txt.trim().toLowerCase().startsWith('completo')) {
+        document.getElementById('reservaForm').style.display = 'none';
+        document.getElementById('reservaCompleto').style.display = 'flex';
+      }
+    })
+    .catch(() => {}); // Si falla el fetch → formulario visible por defecto
 
   // Fecha mínima = hoy
   const hoy = new Date().toISOString().split('T')[0];
