@@ -1448,11 +1448,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   // Control disponibilidad — Jefferson pone en el Sheet las fechas completas (YYYY-MM-DD, una por fila)
   const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSmrqgUfn7WhDeimLJKyVdhPK9dW3hlCQfzvsTz4B2CQuUanimBuRH9p9m5N1-IkqawbhQlRDOdh7Yp/pub?gid=0&single=true&output=csv';
+  function normalizarFecha(f) {
+    f = f.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(f)) return f; // ya es YYYY-MM-DD
+    const m = f.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})$/);
+    if (m) return `${m[3]}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`;
+    return f;
+  }
+
   let fechasCompleto = [];
   fetch(SHEET_URL + '&nocache=' + Date.now(), { cache: 'no-store' })
     .then(r => r.text())
     .then(txt => {
-      fechasCompleto = txt.trim().split('\n').map(f => f.trim()).filter(Boolean);
+      fechasCompleto = txt.trim().split('\n').map(f => normalizarFecha(f)).filter(Boolean);
     })
     .catch(() => {});
 
