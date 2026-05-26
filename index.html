@@ -1465,10 +1465,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   fetch(SHEET_URL + '&nocache=' + Date.now(), { cache: 'no-store' })
     .then(r => r.text())
     .then(txt => {
+      const hoyStr = new Date().toISOString().split('T')[0];
       bloqueos = txt.trim().split('\n')
         .map(l => l.split(','))
         .filter(p => p.length >= 2)
-        .map(p => ({ fecha: normalizarFecha(p[0]), turno: p[1].trim().toLowerCase() }));
+        .map(p => ({ fecha: normalizarFecha(p[0]), turno: p[1].trim().toLowerCase() }))
+        .filter(b => b.fecha >= hoyStr); // ignorar fechas pasadas
     })
     .catch(() => {});
 
