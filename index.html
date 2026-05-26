@@ -1494,7 +1494,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
   }
 
-  document.getElementById('r-fecha').addEventListener('change', checkBloqueo);
+  document.getElementById('r-fecha').addEventListener('change', function() {
+    const fecha = this.value;
+    const horaSelect = document.getElementById('r-hora');
+    const optCena = horaSelect.querySelector('optgroup[label^="Cena"]');
+    if (fecha) {
+      const [y, m, d] = fecha.split('-');
+      const diaSemana = new Date(y, m - 1, d).getDay(); // 0=dom,5=vie,6=sab
+      const hayCena = diaSemana === 5 || diaSemana === 6;
+      optCena.disabled = !hayCena;
+      optCena.style.display = hayCena ? '' : 'none';
+      // Si tenía hora de cena seleccionada y ya no hay cena, resetear
+      if (!hayCena && getTurno(horaSelect.value) === 'cena') {
+        horaSelect.value = '';
+      }
+    }
+    checkBloqueo();
+  });
   document.getElementById('r-hora').addEventListener('change', checkBloqueo);
 
   // Fecha mínima = hoy
