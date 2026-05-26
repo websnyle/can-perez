@@ -1450,24 +1450,38 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSmrqgUfn7WhDeimLJKyVdhPK9dW3hlCQfzvsTz4B2CQuUanimBuRH9p9m5N1-IkqawbhQlRDOdh7Yp/pub?gid=0&single=true&output=csv';
   function normalizarFecha(f) {
     f = f.trim();
-    if (/^\d{4}-\d{2}-\d{2}$/.test(f)) return f; // ya es YYYY-MM-DD
+    if (/^\d{4}-\d{2}-\d{2}$/.test(f)) return f;
     const m = f.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})$/);
     if (m) return `${m[3]}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`;
     return f;
   }
 
-  let fechasCompleto = [];
+  function getTurno(hora) {
+    if (!hora) return null;
+    return parseInt(hora.split(':')[0]) < 17 ? 'comida' : 'cena';
+  }
+
+  let bloqueos = []; // [{fecha: 'YYYY-MM-DD', turno: 'comida'|'cena'}]
   fetch(SHEET_URL + '&nocache=' + Date.now(), { cache: 'no-store' })
     .then(r => r.text())
     .then(txt => {
-      fechasCompleto = txt.trim().split('\n').map(f => normalizarFecha(f)).filter(Boolean);
+      bloqueos = txt.trim().split('\n')
+        .map(l => l.split(','))
+        .filter(p => p.length >= 2)
+        .map(p => ({ fecha: normalizarFecha(p[0]), turno: p[1].trim().toLowerCase() }));
     })
     .catch(() => {});
 
-  document.getElementById('r-fecha').addEventListener('change', function() {
-    const msg = document.getElementById('fecha-completo-msg');
-    const btn = document.querySelector('.btn-wa-submit');
-    if (fechasCompleto.includes(this.value)) {
+  function checkBloqueo() {
+    const fecha = document.getElementById('r-fecha').value;
+    const hora  = document.getElementById('r-hora').value;
+    const msg   = document.getElementById('fecha-completo-msg');
+    const btn   = document.querySelector('.btn-wa-submit');
+    if (!fecha || !hora) return;
+    const turno    = getTurno(hora);
+    const bloqueado = bloqueos.some(b => b.fecha === fecha && b.turno === turno);
+    if (bloqueado) {
+      msg.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Este día no quedan mesas para la ' + turno + '. Elige otra fecha u horario.';
       msg.style.display = 'block';
       btn.disabled = true;
       btn.style.opacity = '.45';
@@ -1476,7 +1490,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       btn.disabled = false;
       btn.style.opacity = '1';
     }
-  });
+  }
+
+  document.getElementById('r-fecha').addEventListener('change', checkBloqueo);
+  document.getElementById('r-hora').addEventListener('change', checkBloqueo);
 
   // Fecha mínima = hoy
   const hoy = new Date().toISOString().split('T')[0];
