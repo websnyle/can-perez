@@ -1777,7 +1777,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       });
 
       if (res.ok) {
-        // Notificación a Jefferson via Formspree (silenciosa)
+        // Notificación a Jefferson via Formspree (email)
         const [y, m, d] = fecha.split('-');
         const fechaFmt = `${d}/${m}/${y}`;
         fetch('https://formspree.io/f/xjgzlbnv', {
@@ -1789,6 +1789,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             direccion, cantidad, tipo
           })
         }).catch(() => {});
+
+        // Notificación a Jefferson via WhatsApp (CallMeBot)
+        const waMsgJeff = `🥘 Nuevo pedido paella Can Pérez%0A%0A` +
+          `👤 ${nombre}%0A📱 ${telefono}%0A` +
+          `📅 ${fechaFmt} · ${hora}%0A` +
+          `📍 ${direccion}%0A` +
+          `🍽️ ${cantidad} × ${tipo}`;
+        fetch(`https://api.callmebot.com/whatsapp.php?phone=34657100549&text=${waMsgJeff}&apikey=1883472`)
+          .catch(() => {});
 
         // WhatsApp para el cliente
         const waMsg = `🥘 *Pedido paella Can Pérez*\n\n` +
