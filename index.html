@@ -1832,6 +1832,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     document.getElementById('paellaForm').style.display = 'block';
     document.getElementById('paellaSuccess').style.display = 'none';
     pHora.innerHTML = '<option value="" disabled selected>Elige fecha primero</option>';
+    const btn = document.getElementById('p-submit');
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-parachute-box"></i> Reservar entrega';
   }
 
   // Accordion
