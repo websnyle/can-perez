@@ -1784,7 +1784,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
           body: JSON.stringify({
-            asunto: `🥘 Nuevo pedido paella — ${fechaFmt} ${hora}`,
+            _subject: `🥘 Nuevo pedido paella — ${fechaFmt} ${hora}`,
             nombre, telefono, fecha: fechaFmt, hora,
             direccion, cantidad, tipo
           })
