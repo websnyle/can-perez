@@ -615,6 +615,29 @@
       .reserva-form { padding: 1.5rem; }
     }
 
+    /* PAELLAS */
+    .paella-wrap {
+      max-width: 620px; margin: 0 auto;
+      background: #fff; border-radius: var(--radius);
+      box-shadow: var(--shadow-lg); overflow: hidden;
+    }
+    .paella-tabs {
+      display: flex; border-bottom: 2px solid #F0E8DB;
+    }
+    .paella-tab {
+      flex: 1; padding: 1rem; border: none; background: none;
+      font-family: var(--font-sans); font-size: .88rem; font-weight: 700;
+      color: #9A7A60; cursor: pointer; display: flex; align-items: center;
+      justify-content: center; gap: .5rem;
+      transition: background var(--t), color var(--t);
+    }
+    .paella-tab.active {
+      color: var(--color-primary); background: #FBF8F4;
+      border-bottom: 2px solid var(--color-accent); margin-bottom: -2px;
+    }
+    .paella-panel { padding: 2rem 2.5rem; }
+    @media (max-width: 600px) { .paella-panel { padding: 1.5rem; } }
+
     /* WHATSAPP */
     .wa {
       position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 999;
@@ -1319,6 +1342,107 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </section>
 
+<!-- ══════════ PAELLAS A DOMICILIO ══════════ -->
+<section id="paellas" style="background:#F0E8DB">
+  <div class="container">
+    <div class="anim" style="text-align:center;margin-bottom:2.5rem">
+      <span class="tag">Sábados y domingos · 13:00–16:00</span>
+      <h2 class="sec-title">Paella a domicilio</h2>
+      <p class="sec-sub" style="margin:0 auto">Preparamos tu paella y te la llevamos. Reserva tu franja horaria — solo 1 entrega cada 20 minutos.</p>
+    </div>
+    <div class="paella-wrap anim d1">
+      <!-- Tabs -->
+      <div class="paella-tabs">
+        <button class="paella-tab active" onclick="switchTab('llevar')"><i class="fa-solid fa-motorcycle"></i> A domicilio</button>
+        <button class="paella-tab" onclick="switchTab('recoger')"><i class="fa-solid fa-bag-shopping"></i> Recojo yo</button>
+      </div>
+
+      <!-- Tab: A domicilio -->
+      <div id="tab-llevar" class="paella-panel">
+        <form id="paellaForm" novalidate>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="p-nombre">Nombre</label>
+              <input class="form-input" type="text" id="p-nombre" placeholder="Tu nombre" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="p-telefono">Teléfono</label>
+              <input class="form-input" type="tel" id="p-telefono" placeholder="612 345 678" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="p-fecha">Fecha</label>
+              <input class="form-input" type="date" id="p-fecha" required>
+              <p id="p-fecha-msg" style="display:none;color:#b94040;font-size:.78rem;margin-top:.3rem;"><i class="fa-solid fa-circle-exclamation"></i> Solo disponible sábados y domingos.</p>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="p-hora">Hora de entrega</label>
+              <select class="form-input" id="p-hora" required>
+                <option value="" disabled selected>Elige fecha primero</option>
+              </select>
+              <p id="p-hora-msg" style="display:none;color:#b94040;font-size:.78rem;margin-top:.3rem;"><i class="fa-solid fa-circle-exclamation"></i> No quedan franjas disponibles para este día.</p>
+            </div>
+            <div class="form-group full">
+              <label class="form-label" for="p-direccion">Dirección de entrega</label>
+              <input class="form-input" type="text" id="p-direccion" placeholder="Calle, número, piso · Castelldefels" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="p-cantidad">Número de paellas</label>
+              <select class="form-input" id="p-cantidad" required>
+                <option value="" disabled selected>¿Cuántas?</option>
+                <option>1</option><option>2</option><option>3</option>
+                <option>4</option><option>5</option><option>6+</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="p-tipo">Tipo de paella</label>
+              <select class="form-input" id="p-tipo" required>
+                <option value="" disabled selected>Seleccionar</option>
+                <option>Paella Can Pérez (selección de la casa)</option>
+                <option>Paella de Mariscos</option>
+                <option>Paella de Carrillera de Cerdo</option>
+                <option>Paella de Magret de Pato</option>
+                <option>Paella de Gamba Pelada y Gamba Roja</option>
+                <option>Paella del Senyoret</option>
+                <option>Paella de Chuletón Madurado</option>
+                <option>Fideuà Can Pérez</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn-wa-submit" id="p-submit" style="background:var(--color-primary)">
+            <i class="fa-solid fa-parachute-box"></i> Reservar entrega
+          </button>
+          <p class="reserva-note">Te confirmamos el pedido por WhatsApp en menos de 24h</p>
+        </form>
+        <div id="paellaSuccess" style="display:none;flex-direction:column;align-items:center;justify-content:center;padding:3rem 2rem;text-align:center;gap:.9rem;">
+          <div style="width:68px;height:68px;background:#E8F8EF;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.9rem;color:#25D366"><i class="fa-solid fa-check"></i></div>
+          <p style="font-family:var(--font-serif);font-size:1.5rem;color:var(--color-primary)">¡Pedido recibido!</p>
+          <p style="font-size:.9rem;color:#7A5C40;max-width:310px;line-height:1.6">Tu franja horaria está reservada. Te confirmamos los detalles por WhatsApp. ¡Hasta pronto!</p>
+          <button onclick="resetPaella()" style="background:none;border:none;color:var(--color-accent);font-size:.83rem;cursor:pointer;text-decoration:underline;font-family:var(--font-sans)">Hacer otro pedido</button>
+        </div>
+      </div>
+
+      <!-- Tab: Recojo yo -->
+      <div id="tab-recoger" class="paella-panel" style="display:none">
+        <div style="text-align:center;padding:3rem 2rem">
+          <i class="fa-solid fa-bag-shopping" style="font-size:2.5rem;color:var(--color-accent);margin-bottom:1rem;display:block"></i>
+          <p style="font-family:var(--font-serif);font-size:1.3rem;color:var(--color-primary);margin-bottom:.5rem">Recogida en el restaurante</p>
+          <p style="font-size:.9rem;color:#7A5C40;max-width:320px;margin:0 auto 1.5rem">Sin horario fijo — escríbenos por WhatsApp con el tipo de paella, cantidad y cuándo quieres recogerla.</p>
+          <a href="https://wa.me/34611836813?text=Hola%2C%20me%20gustar%C3%ADa%20pedir%20una%20paella%20para%20recoger%20en%20el%20restaurante." target="_blank" rel="noopener" class="btn-wa-submit" style="display:inline-flex;text-decoration:none">
+            <i class="fa-brands fa-whatsapp"></i> Pedir por WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- wave: reservas → paellas -->
+<div class="wave" style="background:#3D1F0A">
+  <svg viewBox="0 0 1440 55" preserveAspectRatio="none" style="height:55px" xmlns="http://www.w3.org/2000/svg">
+    <path fill="#F0E8DB" d="M0,0 L1440,0 L1440,35 C900,0 540,55 0,20 Z"/>
+  </svg>
+</div>
+
 <!-- wave: testimonios → contacto -->
 <div class="wave" style="background:#3D1F0A">
   <svg viewBox="0 0 1440 55" preserveAspectRatio="none" style="height:55px" xmlns="http://www.w3.org/2000/svg">
@@ -1568,6 +1692,112 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     document.getElementById('reservaForm').reset();
     document.getElementById('reservaForm').style.display = 'block';
     document.getElementById('reservaSuccess').style.display = 'none';
+  }
+
+  // ══════════ PAELLAS A DOMICILIO — SUPABASE ══════════
+  const SB_URL = 'https://aybqujbwdnppcreavrje.supabase.co';
+  const SB_KEY = 'sb_publishable_sZzWw0U93sDMFs_zVdGFzw_EW8iNqL5';
+  const SLOTS  = ['13:00','13:20','13:40','14:00','14:20','14:40','15:00','15:20','15:40','16:00'];
+
+  function switchTab(tab) {
+    document.querySelectorAll('.paella-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.paella-panel').forEach(p => p.style.display = 'none');
+    document.getElementById('tab-' + tab).style.display = 'block';
+    event.currentTarget.classList.add('active');
+  }
+
+  // Solo sáb (6) y dom (0)
+  const pFecha = document.getElementById('p-fecha');
+  const pHora  = document.getElementById('p-hora');
+  pFecha.min = new Date().toISOString().split('T')[0];
+
+  pFecha.addEventListener('change', async function() {
+    const val = this.value;
+    const msg = document.getElementById('p-fecha-msg');
+    const [y, m, d] = val.split('-');
+    const dia = new Date(y, m - 1, d).getDay();
+
+    if (dia !== 0 && dia !== 6) {
+      msg.style.display = 'block';
+      pHora.innerHTML = '<option value="" disabled selected>Solo sáb/dom</option>';
+      return;
+    }
+    msg.style.display = 'none';
+    pHora.innerHTML = '<option value="" disabled selected>Cargando...</option>';
+
+    try {
+      const res = await fetch(`${SB_URL}/rest/v1/paella_bookings?select=hora&fecha=eq.${val}`, {
+        headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+      });
+      const booked = await res.json();
+      const bookedHoras = booked.map(b => b.hora);
+      const disponibles = SLOTS.filter(s => !bookedHoras.includes(s));
+
+      if (disponibles.length === 0) {
+        pHora.innerHTML = '<option value="" disabled selected>Sin franjas disponibles</option>';
+        document.getElementById('p-hora-msg').style.display = 'block';
+      } else {
+        document.getElementById('p-hora-msg').style.display = 'none';
+        pHora.innerHTML = '<option value="" disabled selected>Seleccionar hora</option>' +
+          disponibles.map(s => `<option>${s}</option>`).join('');
+      }
+    } catch(e) {
+      pHora.innerHTML = '<option value="" disabled selected>Error al cargar</option>';
+    }
+  });
+
+  document.getElementById('paellaForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const nombre   = document.getElementById('p-nombre').value.trim();
+    const telefono = document.getElementById('p-telefono').value.trim();
+    const fecha    = document.getElementById('p-fecha').value;
+    const hora     = document.getElementById('p-hora').value;
+    const direccion = document.getElementById('p-direccion').value.trim();
+    const cantidad  = document.getElementById('p-cantidad').value;
+    const tipo      = document.getElementById('p-tipo').value;
+    if (!nombre || !telefono || !fecha || !hora || !direccion || !cantidad || !tipo) return;
+
+    const btn = document.getElementById('p-submit');
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+
+    try {
+      const res = await fetch(`${SB_URL}/rest/v1/paella_bookings`, {
+        method: 'POST',
+        headers: {
+          'apikey': SB_KEY,
+          'Authorization': 'Bearer ' + SB_KEY,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({ fecha, hora, nombre, telefono, direccion, num_paellas: parseInt(cantidad), tipos_paella: tipo })
+      });
+
+      if (res.ok) {
+        document.getElementById('paellaForm').style.display = 'none';
+        document.getElementById('paellaSuccess').style.display = 'flex';
+        dataLayer.push({ event: 'paella_pedido' });
+      } else if (res.status === 409) {
+        // Slot ya ocupado — recargar slots
+        alert('Esta franja acaba de reservarse. Por favor elige otra hora.');
+        pFecha.dispatchEvent(new Event('change'));
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-parachute-box"></i> Reservar entrega';
+      } else {
+        throw new Error();
+      }
+    } catch(e) {
+      alert('Error al procesar el pedido. Inténtalo de nuevo o llámanos.');
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-parachute-box"></i> Reservar entrega';
+    }
+  });
+
+  function resetPaella() {
+    document.getElementById('paellaForm').reset();
+    document.getElementById('paellaForm').style.display = 'block';
+    document.getElementById('paellaSuccess').style.display = 'none';
+    pHora.innerHTML = '<option value="" disabled selected>Elige fecha primero</option>';
   }
 
   // Accordion
