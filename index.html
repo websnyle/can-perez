@@ -1415,8 +1415,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </form>
         <div id="paellaSuccess" style="display:none;flex-direction:column;align-items:center;justify-content:center;padding:3rem 2rem;text-align:center;gap:.9rem;">
           <div style="width:68px;height:68px;background:#E8F8EF;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.9rem;color:#25D366"><i class="fa-solid fa-check"></i></div>
-          <p style="font-family:var(--font-serif);font-size:1.5rem;color:var(--color-primary)">¡Pedido recibido!</p>
-          <p style="font-size:.9rem;color:#7A5C40;max-width:310px;line-height:1.6">Tu franja horaria está reservada. Te confirmamos los detalles por WhatsApp. ¡Hasta pronto!</p>
+          <p style="font-family:var(--font-serif);font-size:1.5rem;color:var(--color-primary)">¡Franja reservada!</p>
+          <p style="font-size:.9rem;color:#7A5C40;max-width:310px;line-height:1.6">Tu pedido está confirmado. Envíanos los detalles por WhatsApp para que Can Pérez lo tenga todo listo.</p>
+          <a id="p-wa-btn" href="#" target="_blank" rel="noopener" class="btn-wa-submit" style="display:inline-flex;text-decoration:none;margin-top:.3rem">
+            <i class="fa-brands fa-whatsapp"></i> Enviar pedido por WhatsApp
+          </a>
           <button onclick="resetPaella()" style="background:none;border:none;color:var(--color-accent);font-size:.83rem;cursor:pointer;text-decoration:underline;font-family:var(--font-sans)">Hacer otro pedido</button>
         </div>
       </div>
@@ -1774,6 +1777,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       });
 
       if (res.ok) {
+        // Notificación a Jefferson via Formspree (silenciosa)
+        const [y, m, d] = fecha.split('-');
+        const fechaFmt = `${d}/${m}/${y}`;
+        fetch('https://formspree.io/f/xjgzlbnv', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            asunto: `🥘 Nuevo pedido paella — ${fechaFmt} ${hora}`,
+            nombre, telefono, fecha: fechaFmt, hora,
+            direccion, cantidad, tipo
+          })
+        }).catch(() => {});
+
+        // WhatsApp para el cliente
+        const waMsg = `🥘 *Pedido paella Can Pérez*\n\n` +
+          `👤 Nombre: ${nombre}\n📱 Teléfono: ${telefono}\n` +
+          `📅 Fecha: ${fechaFmt}\n🕐 Hora entrega: ${hora}\n` +
+          `📍 Dirección: ${direccion}\n` +
+          `🍽️ Paellas: ${cantidad} × ${tipo}`;
+        const waBtn = document.getElementById('p-wa-btn');
+        waBtn.href = 'https://wa.me/34611836813?text=' + encodeURIComponent(waMsg);
+
         document.getElementById('paellaForm').style.display = 'none';
         document.getElementById('paellaSuccess').style.display = 'flex';
         dataLayer.push({ event: 'paella_pedido' });
