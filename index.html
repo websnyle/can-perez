@@ -1697,6 +1697,45 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     document.getElementById('reservaSuccess').style.display = 'none';
   }
 
+  // ══════════ CANCELACIÓN DE PEDIDO ══════════
+  const cancelId = new URLSearchParams(window.location.search).get('cancelar');
+  if (cancelId) {
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem';
+    overlay.innerHTML = `
+      <div style="background:#fff;border-radius:16px;padding:2.5rem 2rem;max-width:380px;text-align:center;font-family:var(--font-sans)">
+        <i class="fa-solid fa-circle-exclamation" style="font-size:2.5rem;color:var(--color-accent);margin-bottom:1rem;display:block"></i>
+        <p style="font-family:var(--font-serif);font-size:1.3rem;color:var(--color-primary);margin-bottom:.5rem">¿Cancelar este pedido?</p>
+        <p style="font-size:.88rem;color:#7A5C40;margin-bottom:1.5rem">El slot quedará libre para otros clientes.</p>
+        <div style="display:flex;gap:1rem;justify-content:center">
+          <button id="cancel-no" style="padding:.7rem 1.5rem;border:2px solid #ddd;background:none;border-radius:30px;cursor:pointer;font-family:var(--font-sans);font-weight:700">Volver</button>
+          <button id="cancel-si" style="padding:.7rem 1.5rem;background:#b94040;color:#fff;border:none;border-radius:30px;cursor:pointer;font-family:var(--font-sans);font-weight:700">Sí, cancelar</button>
+        </div>
+        <p id="cancel-msg" style="display:none;margin-top:1rem;font-size:.88rem;color:#7A5C40"></p>
+      </div>`;
+    document.body.appendChild(overlay);
+    document.getElementById('cancel-no').onclick = () => {
+      window.history.replaceState({}, '', '/');
+      overlay.remove();
+    };
+    document.getElementById('cancel-si').onclick = async () => {
+      const msg = document.getElementById('cancel-msg');
+      msg.style.display = 'block';
+      msg.textContent = 'Cancelando...';
+      try {
+        const r = await fetch(`${SB_URL}/rest/v1/paella_bookings?id=eq.${cancelId}`, {
+          method: 'DELETE',
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+        });
+        if (r.ok) {
+          msg.textContent = '✅ Pedido cancelado. El slot ha quedado libre.';
+          document.getElementById('cancel-si').style.display = 'none';
+          setTimeout(() => { window.history.replaceState({}, '', '/'); overlay.remove(); }, 2500);
+        } else throw new Error();
+      } catch { msg.textContent = 'Error al cancelar. Llama al restaurante.'; }
+    };
+  }
+
   // ══════════ PAELLAS A DOMICILIO — SUPABASE ══════════
   const SB_URL = 'https://aybqujbwdnppcreavrje.supabase.co';
   const SB_KEY = 'sb_publishable_sZzWw0U93sDMFs_zVdGFzw_EW8iNqL5';
@@ -1771,12 +1810,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           'apikey': SB_KEY,
           'Authorization': 'Bearer ' + SB_KEY,
           'Content-Type': 'application/json',
-          'Prefer': 'return=minimal'
+          'Prefer': 'return=representation'
         },
         body: JSON.stringify({ fecha, hora, nombre, telefono, direccion, num_paellas: parseInt(cantidad), tipos_paella: tipo })
       });
 
       if (res.ok) {
+        const booking = await res.json();
+        const bookingId = booking[0]?.id;
+        const cancelUrl = `https://canperez.es/?cancelar=${bookingId}`;
+
         // Notificación a Jefferson via Formspree (email)
         const [y, m, d] = fecha.split('-');
         const fechaFmt = `${d}/${m}/${y}`;
@@ -1791,11 +1834,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         }).catch(() => {});
 
         // Notificación a Jefferson via WhatsApp (CallMeBot)
-        const waMsgJeff = `🥘 Nuevo pedido paella Can Pérez%0A%0A` +
-          `👤 ${nombre}%0A📱 ${telefono}%0A` +
-          `📅 ${fechaFmt} · ${hora}%0A` +
-          `📍 ${direccion}%0A` +
-          `🍽️ ${cantidad} × ${tipo}`;
+        const waMsgJeff = encodeURIComponent(
+          `🥘 Nuevo pedido paella Can Pérez\n\n` +
+          `👤 ${nombre}\n📱 ${telefono}\n` +
+          `📅 ${fechaFmt} · ${hora}\n` +
+          `📍 ${direccion}\n` +
+          `🍽️ ${cantidad} × ${tipo}\n\n` +
+          `❌ Cancelar: ${cancelUrl}`
+        );
         fetch(`https://api.callmebot.com/whatsapp.php?phone=34657100549&text=${waMsgJeff}&apikey=1883472`)
           .catch(() => {});
 
