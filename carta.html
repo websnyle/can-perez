@@ -7,7 +7,7 @@
   <title>Carta · Can Pérez · Castelldefels</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <style>
     :root {
@@ -16,367 +16,456 @@
       --bg: #FBF8F4;
       --text: #2a1a0a;
       --muted: #7a6a5a;
-      --border: rgba(200,137,58,.18);
+      --border: rgba(61,31,10,.1);
       --radius: 10px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Lato', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Lato', sans-serif; background: var(--bg); color: var(--text); }
 
     /* ── HEADER ── */
     .header {
       background: var(--primary);
-      padding: 1.5rem 1rem 1.2rem;
+      padding: 1.4rem 1rem 1rem;
       text-align: center;
+    }
+    .header img { height: 54px; filter: brightness(0) invert(1); margin-bottom: .4rem; }
+    .header h1 { font-family: 'Playfair Display', serif; color: #fff; font-size: 1.05rem; font-weight: 400; letter-spacing: .06em; }
+    .header p { color: rgba(255,255,255,.45); font-size: .68rem; margin-top: .15rem; letter-spacing: .1em; text-transform: uppercase; }
+
+    /* ── NAV TABS ── */
+    .nav-wrap {
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 2px 12px rgba(0,0,0,.3);
-    }
-    .header img { height: 52px; filter: brightness(0) invert(1); margin-bottom: .4rem; }
-    .header h1 { font-family: 'Playfair Display', serif; color: #fff; font-size: 1.1rem; font-weight: 400; letter-spacing: .05em; }
-    .header p { color: rgba(255,255,255,.5); font-size: .7rem; margin-top: .15rem; letter-spacing: .08em; text-transform: uppercase; }
-
-    /* ── TABS ── */
-    .tabs-wrap {
       background: var(--primary);
       border-top: 1px solid rgba(255,255,255,.08);
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
+      box-shadow: 0 2px 10px rgba(0,0,0,.25);
     }
-    .tabs-wrap::-webkit-scrollbar { display: none; }
-    .tabs {
-      display: flex;
-      gap: 0;
-      width: max-content;
-      min-width: 100%;
-      padding: 0 .5rem;
+    .nav-wrap::-webkit-scrollbar { display: none; }
+    .nav-tabs { display: flex; width: max-content; min-width: 100%; padding: 0 .5rem; }
+    .nav-tab {
+      background: none; border: none; border-bottom: 2px solid transparent;
+      color: rgba(255,255,255,.45); font-family: 'Lato', sans-serif;
+      font-size: .68rem; font-weight: 700; letter-spacing: .07em;
+      text-transform: uppercase; padding: .6rem .7rem;
+      cursor: pointer; white-space: nowrap; transition: color .2s, border-color .2s;
     }
-    .tab {
-      background: none;
-      border: none;
-      color: rgba(255,255,255,.5);
-      font-family: 'Lato', sans-serif;
-      font-size: .72rem;
-      font-weight: 700;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      padding: .65rem .75rem;
-      cursor: pointer;
-      white-space: nowrap;
-      border-bottom: 2px solid transparent;
-      transition: color .2s, border-color .2s;
-    }
-    .tab:hover { color: rgba(255,255,255,.8); }
-    .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .nav-tab:hover { color: rgba(255,255,255,.8); }
+    .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
 
     /* ── CONTENT ── */
-    .content { padding: 0 0 5rem; }
+    .content { padding-bottom: 5.5rem; }
 
     /* ── SECTION ── */
-    .sec { display: none; padding: 1.2rem 1rem 0; }
-    .sec.active { display: block; }
-
+    .sec { padding: 1.6rem 1rem 0; }
+    .sec-header { margin-bottom: 1rem; }
+    .sec-tag {
+      display: inline-block;
+      font-size: .62rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--accent);
+      border: 1px solid var(--accent); border-radius: 20px;
+      padding: .15rem .6rem; margin-bottom: .4rem;
+    }
     .sec-title {
       font-family: 'Playfair Display', serif;
-      font-size: 1.3rem;
-      color: var(--primary);
-      margin-bottom: .2rem;
+      font-size: 1.35rem; color: var(--primary);
+      line-height: 1.2;
     }
-    .sec-note {
-      font-size: .72rem;
-      color: var(--muted);
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: .3rem;
+    .sec-note { font-size: .73rem; color: var(--muted); margin-top: .3rem; font-style: italic; }
+
+    /* ── SUBSECTION ── */
+    .subsec { margin-top: 1.4rem; }
+    .subsec-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; color: var(--primary);
+      font-style: italic; margin-bottom: .6rem;
+      padding-bottom: .4rem;
+      border-bottom: 1px solid var(--border);
     }
 
     /* ── ITEMS ── */
-    .items { display: flex; flex-direction: column; gap: 0; }
+    .items { display: flex; flex-direction: column; }
     .item {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 1rem;
-      padding: .9rem 0;
+      display: flex; justify-content: space-between;
+      align-items: flex-start; gap: .8rem;
+      padding: .8rem 0;
       border-bottom: 1px solid var(--border);
     }
     .item:last-child { border-bottom: none; }
-    .item-info { flex: 1; }
-    .item-name {
-      font-size: .92rem;
-      font-weight: 700;
-      color: var(--text);
-      line-height: 1.3;
-    }
-    .item-desc {
-      font-size: .78rem;
-      color: var(--muted);
-      margin-top: .2rem;
-      line-height: 1.4;
-      font-style: italic;
-    }
-    .item-price {
-      font-weight: 700;
-      color: var(--accent);
-      font-size: .92rem;
-      white-space: nowrap;
-      padding-top: .1rem;
+    .item-name { font-size: .9rem; font-weight: 700; color: var(--text); line-height: 1.3; }
+    .item-desc { font-size: .76rem; color: var(--muted); margin-top: .15rem; line-height: 1.4; font-style: italic; }
+    .item-price { font-weight: 700; color: var(--accent); font-size: .9rem; white-space: nowrap; padding-top: .1rem; flex-shrink: 0; }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px; background: var(--border);
+      margin: 1.8rem 1rem 0;
     }
 
-    /* ── NOTE CARD ── */
-    .note-card {
-      background: rgba(200,137,58,.08);
+    /* ── NOTE BOX ── */
+    .note-box {
+      background: rgba(200,137,58,.07);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: .65rem .9rem;
+      font-size: .75rem; color: var(--muted);
+      margin-top: 1rem; line-height: 1.5;
+    }
+    .note-box strong { color: var(--primary); }
+
+    /* ── ALÉRGENOS ── */
+    .alergenos {
+      margin: 1.8rem 1rem 0;
+      background: #fff;
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: .75rem 1rem;
-      font-size: .75rem;
-      color: var(--muted);
-      margin: 1rem;
-      text-align: center;
+      padding: 1rem;
+    }
+    .alergenos h4 {
+      font-size: .72rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted);
+      margin-bottom: .7rem;
+    }
+    .alerg-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .4rem .6rem;
+    }
+    .alerg-item { font-size: .72rem; color: var(--muted); display: flex; align-items: center; gap: .3rem; }
+    .alerg-badge {
+      width: 18px; height: 18px; border-radius: 4px;
+      font-size: .6rem; font-weight: 700; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ── IVA NOTE ── */
+    .iva-note {
+      text-align: center; font-size: .7rem; color: var(--muted);
+      padding: 1.2rem 1rem .5rem; letter-spacing: .04em;
     }
 
     /* ── FOOTER ── */
     .footer {
-      position: fixed;
-      bottom: 0;
-      left: 0; right: 0;
+      position: fixed; bottom: 0; left: 0; right: 0;
       background: var(--primary);
-      padding: .85rem 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      padding: .9rem 1rem;
+      display: flex; align-items: center; justify-content: center;
       gap: 1.5rem;
-      box-shadow: 0 -2px 16px rgba(0,0,0,.25);
+      box-shadow: 0 -2px 16px rgba(0,0,0,.3);
     }
     .footer a {
-      color: rgba(255,255,255,.75);
-      text-decoration: none;
-      font-size: .78rem;
-      display: flex;
-      align-items: center;
-      gap: .4rem;
-      font-weight: 700;
-      letter-spacing: .03em;
+      color: rgba(255,255,255,.75); text-decoration: none;
+      font-size: .78rem; display: flex; align-items: center;
+      gap: .4rem; font-weight: 700;
     }
     .footer a svg { width: 16px; height: 16px; fill: var(--accent); flex-shrink: 0; }
     .footer a:hover { color: #fff; }
-    .footer-sep { color: rgba(255,255,255,.2); font-size: .9rem; }
+    .footer-sep { color: rgba(255,255,255,.2); }
   </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header">
-  <img src="logo.webp" alt="Can Pérez" width="52" height="52">
-  <h1>Carta Can Pérez</h1>
-  <p>Castelldefels · Precios con IVA incluido</p>
+  <img src="logo.webp" alt="Can Pérez" width="54" height="54">
+  <h1>Can Pérez Restaurant</h1>
+  <p>Castelldefels · IVA incluido</p>
 </div>
 
-<!-- TABS -->
-<div class="tabs-wrap">
-  <div class="tabs" id="tabs">
-    <button class="tab active" data-sec="pan">Pan</button>
-    <button class="tab" data-sec="ensaladas">Ensaladas</button>
-    <button class="tab" data-sec="frios">Entrantes fríos</button>
-    <button class="tab" data-sec="calientes">Entrantes calientes</button>
-    <button class="tab" data-sec="pasta">Pasta</button>
-    <button class="tab" data-sec="pescados">Pescados</button>
-    <button class="tab" data-sec="carnes">Carnes</button>
-    <button class="tab" data-sec="arroces">Arroces</button>
-    <button class="tab" data-sec="postres">Postres</button>
-    <button class="tab" data-sec="cafes">Cafés</button>
+<div class="nav-wrap">
+  <div class="nav-tabs" id="navTabs">
+    <button class="nav-tab active" data-target="frios">Entrantes fríos</button>
+    <button class="nav-tab" data-target="calientes">Entrantes calientes</button>
+    <button class="nav-tab" data-target="pequenos">Para los pequeños</button>
+    <button class="nav-tab" data-target="atreverse">¿Te atreves?</button>
+    <button class="nav-tab" data-target="paellas">Paellas</button>
+    <button class="nav-tab" data-target="arroces">Arroces</button>
+    <button class="nav-tab" data-target="pescados">Pescados</button>
+    <button class="nav-tab" data-target="carnes">Carnes</button>
+    <button class="nav-tab" data-target="postres">Postres</button>
+    <button class="nav-tab" data-target="extras">Extras</button>
   </div>
 </div>
 
-<!-- CONTENT -->
 <div class="content">
-
-  <!-- PAN -->
-  <div class="sec active" id="sec-pan">
-    <p class="sec-title">Pan y complementos</p>
-    <p class="sec-note">Para acompañar</p>
-    <div class="items">
-      <div class="item"><div class="item-info"><div class="item-name">Pan Bollito</div></div><div class="item-price">1,50 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Pan de Coca</div></div><div class="item-price">2,10 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Mayonesa de Tinta</div></div><div class="item-price">2,00 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">All i oli casero</div></div><div class="item-price">2,00 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Pan Hogaza de Masa Madre</div><div class="item-desc">Con mantequilla, sal Maldon y pimienta recién molida</div></div><div class="item-price">7,90 €</div></div>
-    </div>
-  </div>
-
-  <!-- ENSALADAS -->
-  <div class="sec" id="sec-ensaladas">
-    <p class="sec-title">Ensaladas</p>
-    <p class="sec-note">Frescas y de temporada</p>
-    <div class="items">
-      <div class="item"><div class="item-info"><div class="item-name">Ensalada de Queso de Cabra</div><div class="item-desc">Con frutos secos, vinagreta de miel y Módena</div></div><div class="item-price">14,95 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Ensalada de Tomate de Temporada</div><div class="item-desc">Con ventresca y vinagreta de miel mostaza</div></div><div class="item-price">17,50 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Ensalada de Burrata</div><div class="item-desc">Con aguacate y vinagreta de granada</div></div><div class="item-price">14,50 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Ensalada de Bogavante</div><div class="item-desc">Con verduritas tibias, aguacate y vinagreta de soja</div></div><div class="item-price">20,90 €</div></div>
-    </div>
-  </div>
 
   <!-- ENTRANTES FRÍOS -->
   <div class="sec" id="sec-frios">
-    <p class="sec-title">Entrantes fríos</p>
-    <p class="sec-note">Para compartir o en ración</p>
+    <div class="sec-header">
+      <div class="sec-tag">Para empezar</div>
+      <div class="sec-title">Entrantes fríos</div>
+    </div>
     <div class="items">
-      <div class="item"><div class="item-info"><div class="item-name">Tabla de Quesos Selección Can Pérez</div><div class="item-desc">Manchego Las Terceras, Gouda Beemster y Blue Stilton</div></div><div class="item-price">17,20 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Anchoas del Cantábrico</div><div class="item-desc">Con pimiento piquillo asado</div></div><div class="item-price">16,90 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Carpaccio de Gamba Roja</div><div class="item-desc">Con foie y aceite de trufa</div></div><div class="item-price">20,50 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Carpaccio de Solomillo</div><div class="item-desc">Con parmigiano DOP y rúcula</div></div><div class="item-price">17,20 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Tartar de Salmón Noruego</div><div class="item-desc">Con aguacate y mango</div></div><div class="item-price">17,50 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Steak Tartar de Solomillo</div><div class="item-desc">Con yema de huevo y alcaparras fritas</div></div><div class="item-price">23,90 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Paletilla de Jamón Joselito</div></div><div class="item-price">24,90 €</div></div>
+      <div class="item"><div><div class="item-name">Carpaccio de Gamba Roja</div><div class="item-desc">Con foie y aceite de trufa</div></div><div class="item-price">20,50 €</div></div>
+      <div class="item"><div><div class="item-name">Paletilla de Jamón Joselito</div></div><div class="item-price">24,90 €</div></div>
+      <div class="item"><div><div class="item-name">Anchoas del Cantábrico</div><div class="item-desc">Con pimiento piquillo asado</div></div><div class="item-price">16,90 €</div></div>
+      <div class="item"><div><div class="item-name">Ensalada de Bogavante</div><div class="item-desc">Con verduritas tibias, aguacate y vinagreta de soja</div></div><div class="item-price">20,90 €</div></div>
+      <div class="item"><div><div class="item-name">Ensalada de Queso de Cabra</div><div class="item-desc">Con frutos secos, vinagreta de miel y Módena</div></div><div class="item-price">14,95 €</div></div>
+      <div class="item"><div><div class="item-name">Ensalada de Burrata</div><div class="item-desc">Con aguacate y vinagreta de granada</div></div><div class="item-price">14,50 €</div></div>
+      <div class="item"><div><div class="item-name">Carpaccio de Solomillo</div><div class="item-desc">Con parmigiano DOP y rúcula</div></div><div class="item-price">17,20 €</div></div>
+      <div class="item"><div><div class="item-name">Ensalada de Tomate de Temporada</div><div class="item-desc">Con ventresca y vinagreta de miel mostaza</div></div><div class="item-price">17,50 €</div></div>
+      <div class="item"><div><div class="item-name">Tabla de Quesos Selección Can Pérez</div><div class="item-desc">Manchego Las Terceras, Gouda Beemster y Blue Stilton</div></div><div class="item-price">17,20 €</div></div>
+      <div class="item"><div><div class="item-name">Tartar de Salmón Noruego</div><div class="item-desc">Con aguacate y mango</div></div><div class="item-price">17,50 €</div></div>
+      <div class="item"><div><div class="item-name">Steak Tartar de Solomillo</div><div class="item-desc">Con yema de huevo y alcaparras fritas</div></div><div class="item-price">23,90 €</div></div>
     </div>
   </div>
+
+  <div class="divider"></div>
 
   <!-- ENTRANTES CALIENTES -->
   <div class="sec" id="sec-calientes">
-    <p class="sec-title">Entrantes calientes</p>
-    <p class="sec-note">Para compartir o en ración</p>
+    <div class="sec-header">
+      <div class="sec-tag">Para empezar</div>
+      <div class="sec-title">Entrantes calientes</div>
+    </div>
     <div class="items">
-      <div class="item"><div class="item-info"><div class="item-name">Nuestras Bravas</div></div><div class="item-price">7,50 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Provolone al Estilo Can Pérez</div><div class="item-desc">Con yema de huevo y virutas de jamón ibérico</div></div><div class="item-price">10,90 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Mejillones a la Marinera / Vapor / Parmesana</div></div><div class="item-price">11,50 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Txistorra Punto Picante a la Brasa</div><div class="item-desc">Con miel trufada</div></div><div class="item-price">12,00 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Croquetas de Jamón Ibérico (6 uds.)</div><div class="item-desc">Sin gluten y sin lactosa</div></div><div class="item-price">11,90 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Croquetas de Pollo y Setas (6 uds.)</div></div><div class="item-price">12,50 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Calamarcitos a la Andaluza</div><div class="item-desc">Con su mayonesa</div></div><div class="item-price">14,90 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Tortitas de Camarón (6 uds.)</div></div><div class="item-price">13,90 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Caracoles a la Llauna</div></div><div class="item-price">15,00 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Croquetas de Chuletón Cortado a Cuchillo (6 uds.)</div></div><div class="item-price">15,50 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Gambas al Ajillo</div></div><div class="item-price">15,80 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Tallarinas a la Plancha</div><div class="item-desc">Consultar disponibilidad</div></div><div class="item-price">17,50 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Huevos Rotos</div><div class="item-desc">Con patata paja, viruta de foie y jamón ibérico</div></div><div class="item-price">17,85 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Almejas a la Marinera</div><div class="item-desc">Con virutas de jamón ibérico</div></div><div class="item-price">18,90 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Pulpo a la Brasa</div><div class="item-desc">Con parmentier de boniato, pimentón, AOVE y sal Maldon</div></div><div class="item-price">22,45 €</div></div>
+      <div class="item"><div><div class="item-name">Almejas a la Marinera</div><div class="item-desc">Con virutas de jamón ibérico</div></div><div class="item-price">18,90 €</div></div>
+      <div class="item"><div><div class="item-name">Mejillones a la Marinera / Vapor / Parmesana</div></div><div class="item-price">11,50 €</div></div>
+      <div class="item"><div><div class="item-name">Nuestras Bravas</div></div><div class="item-price">7,50 €</div></div>
+      <div class="item"><div><div class="item-name">Tallarinas a la Plancha</div><div class="item-desc">Consultar disponibilidad</div></div><div class="item-price">17,50 €</div></div>
+      <div class="item"><div><div class="item-name">Calamarcitos a la Andaluza</div><div class="item-desc">Con su mayonesa</div></div><div class="item-price">14,90 €</div></div>
+      <div class="item"><div><div class="item-name">Gambas al Ajillo</div></div><div class="item-price">15,80 €</div></div>
+      <div class="item"><div><div class="item-name">Croquetas de Pollo y Setas (6 uds.)</div></div><div class="item-price">12,50 €</div></div>
+      <div class="item"><div><div class="item-name">Croquetas de Jamón Ibérico (6 uds.)</div><div class="item-desc">Sin gluten y sin lactosa</div></div><div class="item-price">11,90 €</div></div>
+      <div class="item"><div><div class="item-name">Croquetas de Chuletón Cortado a Cuchillo (6 uds.)</div></div><div class="item-price">15,50 €</div></div>
+      <div class="item"><div><div class="item-name">Txistorra Punto Picante a la Brasa</div><div class="item-desc">Con miel trufada</div></div><div class="item-price">12,00 €</div></div>
+      <div class="item"><div><div class="item-name">Provolone al Estilo Can Pérez</div><div class="item-desc">Con yema de huevo y virutas de jamón ibérico</div></div><div class="item-price">10,90 €</div></div>
+      <div class="item"><div><div class="item-name">Tortitas de Camarón (6 uds.)</div></div><div class="item-price">13,90 €</div></div>
+      <div class="item"><div><div class="item-name">Caracoles a la Llauna</div></div><div class="item-price">15,00 €</div></div>
+    </div>
+    <div class="note-box">Opción surtido de croquetas · Opción surtido de tabla de quesos con txistorra</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PARA LOS PEQUEÑOS -->
+  <div class="sec" id="sec-pequenos">
+    <div class="sec-header">
+      <div class="sec-tag">Menú infantil</div>
+      <div class="sec-title">Para los pequeños<br>tesoros de la casa</div>
+    </div>
+    <div class="items">
+      <div class="item"><div><div class="item-name">Escalopa de Pollo</div><div class="item-desc">Con patatas fritas</div></div><div class="item-price">10,90 €</div></div>
+      <div class="item"><div><div class="item-name">Butifarra</div><div class="item-desc">Con patatas fritas</div></div><div class="item-price">12,50 €</div></div>
+      <div class="item"><div><div class="item-name">Pasta con Tomate</div></div><div class="item-price">10,90 €</div></div>
+      <div class="item"><div><div class="item-name">Lenguado a la Plancha</div></div><div class="item-price">23,50 €</div></div>
     </div>
   </div>
 
-  <!-- PASTA -->
-  <div class="sec" id="sec-pasta">
-    <p class="sec-title">Pasta</p>
-    <p class="sec-note">Elaboración propia</p>
+  <div class="divider"></div>
+
+  <!-- TE ATREVES -->
+  <div class="sec" id="sec-atreverse">
+    <div class="sec-header">
+      <div class="sec-tag">Especialidades</div>
+      <div class="sec-title">¿Te atreves a probarnos?</div>
+    </div>
     <div class="items">
-      <div class="item"><div class="item-info"><div class="item-name">Pasta con Tomate</div></div><div class="item-price">10,90 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Canelones</div><div class="item-desc">Con bechamel de trufa</div></div><div class="item-price">14,80 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Pasta Casarecce</div><div class="item-desc">Con crema de setas y guanciale DOP</div></div><div class="item-price">14,90 €</div></div>
+      <div class="item"><div><div class="item-name">Pulpo a la Brasa</div><div class="item-desc">Con parmentier de boniato, pimentón, AOVE y sal Maldon</div></div><div class="item-price">22,45 €</div></div>
+      <div class="item"><div><div class="item-name">Huevos Rotos</div><div class="item-desc">Con patata paja, viruta de foie y jamón ibérico</div></div><div class="item-price">17,85 €</div></div>
+      <div class="item"><div><div class="item-name">Tartar de Salmón Noruego</div><div class="item-desc">Con aguacate y mango</div></div><div class="item-price">17,50 €</div></div>
+      <div class="item"><div><div class="item-name">Tortitas de Camarón (6 uds.)</div></div><div class="item-price">13,90 €</div></div>
+      <div class="item"><div><div class="item-name">Canelones</div><div class="item-desc">Con bechamel de trufa</div></div><div class="item-price">14,80 €</div></div>
+      <div class="item"><div><div class="item-name">Steak Tartar de Solomillo</div><div class="item-desc">Con yema de huevo y alcaparras fritas</div></div><div class="item-price">23,90 €</div></div>
+      <div class="item"><div><div class="item-name">Pasta Casarecce</div><div class="item-desc">Con crema de setas y guanciale DOP</div></div><div class="item-price">14,90 €</div></div>
+      <div class="item"><div><div class="item-name">Caracoles a la Llauna</div></div><div class="item-price">15,00 €</div></div>
     </div>
   </div>
 
-  <!-- PESCADOS -->
-  <div class="sec" id="sec-pescados">
-    <p class="sec-title">Pescados</p>
-    <p class="sec-note">Frescos y de temporada</p>
-    <div class="items">
-      <div class="item"><div class="item-info"><div class="item-name">Bacalao con Sanfaina</div></div><div class="item-price">18,50 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Bacalao en Salsa Verde</div><div class="item-desc">Con 'fesollets' y almejas</div></div><div class="item-price">18,50 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Lenguado a la Plancha</div></div><div class="item-price">23,50 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Lenguado a la Meunière</div></div><div class="item-price">24,50 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Lubina a la Brasa</div><div class="item-desc">Con refrito y patata panadera</div></div><div class="item-price">19,00 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Rodaballo a la Brasa</div><div class="item-desc">Con refrito y patata panadera</div></div><div class="item-price">24,95 €</div></div>
+  <div class="divider"></div>
+
+  <!-- PAELLAS -->
+  <div class="sec" id="sec-paellas">
+    <div class="sec-header">
+      <div class="sec-tag">Nuestra especialidad</div>
+      <div class="sec-title">Nuestras Paellas</div>
     </div>
+    <div class="items">
+      <div class="item"><div><div class="item-name">Paella de Chuletón Madurado</div></div><div class="item-price">26,50 €</div></div>
+      <div class="item"><div><div class="item-name">Paella de Magret de Pato</div><div class="item-desc">Con setas de temporada</div></div><div class="item-price">21,90 €</div></div>
+      <div class="item"><div><div class="item-name">Paella del Senyoret</div><div class="item-desc">Con mejillones, sepia, rape y gamba roja</div></div><div class="item-price">24,50 €</div></div>
+      <div class="item"><div><div class="item-name">Paella Can Pérez ★ Selección de la Casa</div><div class="item-desc">Con butifarra, sepia, secreto ibérico y gamba roja</div></div><div class="item-price">21,00 €</div></div>
+      <div class="item"><div><div class="item-name">Paella de Mariscos</div><div class="item-desc">Con sepia, mejillones, cigala y gamba roja</div></div><div class="item-price">21,50 €</div></div>
+      <div class="item"><div><div class="item-name">Paella de Carrillera de Cerdo</div><div class="item-desc">Con espárragos</div></div><div class="item-price">21,90 €</div></div>
+      <div class="item"><div><div class="item-name">Arroz Negro de Pulpo y Sepia</div><div class="item-desc">Con all i oli</div></div><div class="item-price">21,90 €</div></div>
+      <div class="item"><div><div class="item-name">Paella de Gamba Pelada y Gamba Roja</div></div><div class="item-price">22,90 €</div></div>
+      <div class="item"><div><div class="item-name">Fideuá Can Pérez</div><div class="item-desc">Con sepia, calamar, mejillones y gamba roja</div></div><div class="item-price">18,90 €</div></div>
+      <div class="item"><div><div class="item-name">Arroz de Verduras</div><div class="item-desc">Con bacalao</div></div><div class="item-price">21,50 €</div></div>
+    </div>
+    <div class="note-box"><strong>Fines de semana y festivos</strong> · Todas las paellas y arroces son para un mínimo de 2 personas. Gracias por su comprensión.</div>
   </div>
 
-  <!-- CARNES -->
-  <div class="sec" id="sec-carnes">
-    <p class="sec-title">Carnes</p>
-    <p class="sec-note">A la brasa o a la plancha</p>
-    <div class="items">
-      <div class="item"><div class="item-info"><div class="item-name">Escalopa de Pollo</div><div class="item-desc">Con patatas fritas</div></div><div class="item-price">10,90 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Butifarra</div><div class="item-desc">Con patatas fritas</div></div><div class="item-price">12,50 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Carrillera de Cerdo en su Salsa</div><div class="item-desc">Con parmentier de patata</div></div><div class="item-price">15,90 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Entraña de Ternera Angus a la Brasa</div><div class="item-desc">Con chimichurri y patatas fritas</div></div><div class="item-price">18,70 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Secreto Ibérico de Bellota</div><div class="item-desc">Con parmentier, champiñones salteados, espárragos y salsa española</div></div><div class="item-price">19,85 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Solomillo a la Brasa</div><div class="item-desc">Con parmentier, salsa al Pedro Ximénez y foie mi-cuit</div></div><div class="item-price">25,90 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Chuletón de Vaca Madurada a la Brasa</div><div class="item-desc">500 gr sin hueso · madurado 30 días · con patatas fritas</div></div><div class="item-price">33,20 €</div></div>
-    </div>
-  </div>
+  <div class="divider"></div>
 
   <!-- ARROCES -->
   <div class="sec" id="sec-arroces">
-    <p class="sec-title">Arroces y Paellas</p>
-    <p class="sec-note">Nuestra especialidad · mínimo 2 personas</p>
+    <div class="sec-header">
+      <div class="sec-tag">Nuestra especialidad</div>
+      <div class="sec-title">Nuestros Arroces</div>
+    </div>
     <div class="items">
-      <div class="item"><div class="item-info"><div class="item-name">Paella Can Pérez (Selección de la Casa)</div><div class="item-desc">Con butifarra, sepia, secreto ibérico y gamba roja</div></div><div class="item-price">21,00 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Paella de Mariscos</div><div class="item-desc">Con sepia, mejillones, cigala y gamba roja</div></div><div class="item-price">21,50 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Arroz de Verduras</div><div class="item-desc">Con bacalao</div></div><div class="item-price">21,50 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Paella de Carrillera de Cerdo</div><div class="item-desc">Con espárragos</div></div><div class="item-price">21,90 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Paella de Magret de Pato</div><div class="item-desc">Con setas de temporada</div></div><div class="item-price">21,90 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Arroz Negro de Pulpo y Sepia</div><div class="item-desc">Con all i oli</div></div><div class="item-price">21,90 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Paella de Gamba Pelada y Gamba Roja</div></div><div class="item-price">22,90 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Arroz Meloso de Costilla de Cerdo</div><div class="item-desc">Con gamba roja</div></div><div class="item-price">22,90 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Paella del Senyoret</div><div class="item-desc">Con mejillones, sepia, rape y gamba roja</div></div><div class="item-price">24,50 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Paella de Chuletón Madurado</div></div><div class="item-price">26,50 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Fideuá Can Pérez</div><div class="item-desc">Con sepia, calamar, mejillones y gamba roja</div></div><div class="item-price">18,90 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Arroz Caldoso de Mariscos</div></div><div class="item-price">22,90 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Arroz Caldoso de Bogavante</div><div class="item-desc">Con almejas</div></div><div class="item-price">27,90 €</div></div>
+      <div class="item"><div><div class="item-name">Arroz Meloso de Costilla de Cerdo</div><div class="item-desc">Con gamba roja</div></div><div class="item-price">22,90 €</div></div>
+      <div class="item"><div><div class="item-name">Arroz Caldoso de Bogavante</div><div class="item-desc">Con almejas</div></div><div class="item-price">27,90 €</div></div>
+      <div class="item"><div><div class="item-name">Arroz Caldoso de Mariscos</div></div><div class="item-price">22,90 €</div></div>
     </div>
   </div>
+
+  <div class="divider"></div>
+
+  <!-- PESCADOS -->
+  <div class="sec" id="sec-pescados">
+    <div class="sec-header">
+      <div class="sec-tag">Del mar</div>
+      <div class="sec-title">Nuestra selección de Pescados</div>
+    </div>
+    <div class="items">
+      <div class="item"><div><div class="item-name">Bacalao en Salsa Verde</div><div class="item-desc">Con 'fesollets' y almejas</div></div><div class="item-price">18,50 €</div></div>
+      <div class="item"><div><div class="item-name">Bacalao con Sanfaina</div></div><div class="item-price">18,50 €</div></div>
+      <div class="item"><div><div class="item-name">Bacalao con Ajos Tiernos y Gamba</div></div><div class="item-price">18,90 €</div></div>
+      <div class="item"><div><div class="item-name">Lenguado a la Meunière</div></div><div class="item-price">24,50 €</div></div>
+      <div class="item"><div><div class="item-name">Rodaballo a la Brasa</div><div class="item-desc">Con refrito y patata panadera</div></div><div class="item-price">24,95 €</div></div>
+      <div class="item"><div><div class="item-name">Lubina a la Brasa</div><div class="item-desc">Con refrito y patata panadera</div></div><div class="item-price">19,00 €</div></div>
+    </div>
+    <div class="note-box">Acompáñalos con tu guarnición: patata panadera, verdura, ensalada o patatas fritas</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- CARNES -->
+  <div class="sec" id="sec-carnes">
+    <div class="sec-header">
+      <div class="sec-tag">A la brasa</div>
+      <div class="sec-title">Nuestra selección de Carnes</div>
+    </div>
+    <div class="items">
+      <div class="item"><div><div class="item-name">Solomillo a la Brasa</div><div class="item-desc">Con parmentier, salsa al Pedro Ximénez y foie mi-cuit</div></div><div class="item-price">25,90 €</div></div>
+      <div class="item"><div><div class="item-name">Chuletón de Vaca Madurada a la Brasa</div><div class="item-desc">500 gr sin hueso · madurado 30 días · con patatas fritas</div></div><div class="item-price">33,20 €</div></div>
+      <div class="item"><div><div class="item-name">Entraña de Ternera Angus a la Brasa</div><div class="item-desc">Con chimichurri y patatas fritas</div></div><div class="item-price">18,70 €</div></div>
+      <div class="item"><div><div class="item-name">Secreto Ibérico de Bellota</div><div class="item-desc">Con parmentier, champiñones salteados, espárragos y salsa española</div></div><div class="item-price">19,85 €</div></div>
+      <div class="item"><div><div class="item-name">Carrillera de Cerdo en su Salsa</div><div class="item-desc">Con parmentier de patata</div></div><div class="item-price">15,90 €</div></div>
+    </div>
+    <div class="note-box">Acompáñalas con tu guarnición: patatas fritas, ensalada, verdura, parmentier de patata o parmentier de boniato</div>
+  </div>
+
+  <div class="divider"></div>
 
   <!-- POSTRES -->
   <div class="sec" id="sec-postres">
-    <p class="sec-title">Postres</p>
-    <p class="sec-note">Todos caseros</p>
+    <div class="sec-header">
+      <div class="sec-tag">Para terminar</div>
+      <div class="sec-title">Postres · todos caseros</div>
+    </div>
     <div class="items">
-      <div class="item"><div class="item-info"><div class="item-name">Pa, Xocolata, Oli i Sal</div></div><div class="item-price">7,50 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Brownie con Helado de Vainilla</div></div><div class="item-price">7,50 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Tarta de Queso con Coulis de Frutos Rojos</div></div><div class="item-price">7,50 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Tiramisú en Vaso</div></div><div class="item-price">7,50 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Valenciano</div></div><div class="item-price">7,00 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Helados</div><div class="item-desc">Vainilla, chocolate, nata con nueces, turrón, lotus, nueces de macadamia o sorbete de limón</div></div><div class="item-price">6,00 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Cheesecake Biel de Pistacho</div></div><div class="item-price">8,50 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Donut de Torrija</div><div class="item-desc">Con helado de nueces de macadamia</div></div><div class="item-price">8,00 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Coulant Hecho al Momento</div><div class="item-desc">Con helado de lotus · 10 min de espera</div></div><div class="item-price">9,00 €</div></div>
+      <div class="item"><div><div class="item-name">Pa, Xocolata, Oli i Sal</div></div><div class="item-price">7,50 €</div></div>
+      <div class="item"><div><div class="item-name">Brownie con Helado de Vainilla</div></div><div class="item-price">7,50 €</div></div>
+      <div class="item"><div><div class="item-name">Tarta de Queso con Coulis de Frutos Rojos</div></div><div class="item-price">7,50 €</div></div>
+      <div class="item"><div><div class="item-name">Tiramisú en Vaso</div></div><div class="item-price">7,50 €</div></div>
+      <div class="item"><div><div class="item-name">Valenciano</div></div><div class="item-price">7,00 €</div></div>
+      <div class="item"><div><div class="item-name">Helados</div><div class="item-desc">Vainilla, chocolate, nata con nueces, turrón, lotus, nueces de macadamia o sorbete de limón</div></div><div class="item-price">6,00 €</div></div>
+      <div class="item"><div><div class="item-name">Cheesecake Biel de Pistacho</div></div><div class="item-price">8,50 €</div></div>
+      <div class="item"><div><div class="item-name">Donut de Torrija</div><div class="item-desc">Con helado de nueces de macadamia</div></div><div class="item-price">8,00 €</div></div>
+      <div class="item"><div><div class="item-name">Coulant Hecho al Momento</div><div class="item-desc">Con helado de lotus · 10 min de espera</div></div><div class="item-price">9,00 €</div></div>
+    </div>
+    <div class="subsec">
+      <div class="subsec-title">Cafés y bebidas calientes</div>
+      <div class="items">
+        <div class="item"><div><div class="item-name">Valenciano</div></div><div class="item-price">7,00 €</div></div>
+        <div class="item"><div><div class="item-name">Café Escocés</div></div><div class="item-price">7,85 €</div></div>
+        <div class="item"><div><div class="item-name">Café Irlandés</div></div><div class="item-price">7,85 €</div></div>
+      </div>
     </div>
   </div>
 
-  <!-- CAFÉS -->
-  <div class="sec" id="sec-cafes">
-    <p class="sec-title">Cafés y bebidas calientes</p>
-    <p class="sec-note">Para terminar bien</p>
+  <div class="divider"></div>
+
+  <!-- EXTRAS -->
+  <div class="sec" id="sec-extras">
+    <div class="sec-header">
+      <div class="sec-tag">Complementos</div>
+      <div class="sec-title">Extras</div>
+    </div>
     <div class="items">
-      <div class="item"><div class="item-info"><div class="item-name">Valenciano</div></div><div class="item-price">7,00 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Café Escocés</div></div><div class="item-price">7,85 €</div></div>
-      <div class="item"><div class="item-info"><div class="item-name">Café Irlandés</div></div><div class="item-price">7,85 €</div></div>
+      <div class="item"><div><div class="item-name">Pan Hogaza de Masa Madre</div><div class="item-desc">Con mantequilla, sal Maldon y pimienta recién molida</div></div><div class="item-price">7,90 €</div></div>
+      <div class="item"><div><div class="item-name">Pan de Coca</div></div><div class="item-price">2,10 €</div></div>
+      <div class="item"><div><div class="item-name">Pan Bollito</div></div><div class="item-price">1,50 €</div></div>
+      <div class="item"><div><div class="item-name">All i oli casero</div></div><div class="item-price">2,00 €</div></div>
+      <div class="item"><div><div class="item-name">Mayonesa de Tinta</div></div><div class="item-price">2,00 €</div></div>
     </div>
   </div>
 
-  <div class="note-card">Precios con IVA incluido · Consultar disponibilidad de temporada</div>
+  <!-- ALÉRGENOS -->
+  <div class="alergenos">
+    <h4>Alérgenos</h4>
+    <div class="alerg-grid">
+      <div class="alerg-item"><span class="alerg-badge" style="background:#e74c3c">G</span>Gluten</div>
+      <div class="alerg-item"><span class="alerg-badge" style="background:#3498db">L</span>Lácteos</div>
+      <div class="alerg-item"><span class="alerg-badge" style="background:#f39c12">H</span>Huevos</div>
+      <div class="alerg-item"><span class="alerg-badge" style="background:#27ae60">FS</span>Frutos secos</div>
+      <div class="alerg-item"><span class="alerg-badge" style="background:#8e44ad">C</span>Cacahuetes</div>
+      <div class="alerg-item"><span class="alerg-badge" style="background:#16a085">S</span>Soja</div>
+      <div class="alerg-item"><span class="alerg-badge" style="background:#2980b9">P</span>Pescado</div>
+      <div class="alerg-item"><span class="alerg-badge" style="background:#c0392b">Cr</span>Crustáceos</div>
+      <div class="alerg-item"><span class="alerg-badge" style="background:#7f8c8d">M</span>Moluscos</div>
+      <div class="alerg-item"><span class="alerg-badge" style="background:#d35400">A</span>Apio</div>
+      <div class="alerg-item"><span class="alerg-badge" style="background:#bdc3c7;color:#555">Se</span>Sésamo</div>
+      <div class="alerg-item"><span class="alerg-badge" style="background:#f1c40f;color:#555">Mo</span>Mostaza</div>
+      <div class="alerg-item"><span class="alerg-badge" style="background:#95a5a6">Su</span>Sulfitos</div>
+      <div class="alerg-item"><span class="alerg-badge" style="background:#1abc9c">Al</span>Altramuces</div>
+    </div>
+  </div>
+
+  <p class="iva-note">Precios con IVA incluido · Consultar disponibilidad de temporada</p>
 
 </div>
 
-<!-- FOOTER FIJO -->
+<!-- FOOTER -->
 <div class="footer">
   <a href="tel:+34611836813">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+    <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
     611 836 813
   </a>
   <span class="footer-sep">·</span>
   <a href="https://canperez.es/#reservas">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+    <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
     Reservar mesa
   </a>
 </div>
 
 <script>
-  const tabs = document.querySelectorAll('.tab');
+  const tabs = document.querySelectorAll('.nav-tab');
   const secs = document.querySelectorAll('.sec');
+  const navWrap = document.querySelector('.nav-wrap');
 
+  // Tab click → scroll to section
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-      const target = tab.dataset.sec;
-      tabs.forEach(t => t.classList.remove('active'));
-      secs.forEach(s => s.classList.remove('active'));
-      tab.classList.add('active');
-      document.getElementById('sec-' + target).classList.add('active');
-      // scroll tab into view
+      const target = document.getElementById('sec-' + tab.dataset.target);
+      if (target) {
+        const offset = navWrap.offsetHeight + document.querySelector('.header').offsetHeight;
+        const top = target.getBoundingClientRect().top + window.scrollY - offset - 8;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
       tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     });
   });
+
+  // Scroll → highlight active tab
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id.replace('sec-', '');
+        tabs.forEach(t => t.classList.toggle('active', t.dataset.target === id));
+        const activeTab = document.querySelector(`.nav-tab[data-target="${id}"]`);
+        if (activeTab) activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+
+  secs.forEach(s => observer.observe(s));
 </script>
 
 </body>
