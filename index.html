@@ -47,9 +47,9 @@
       "longitude": 1.9779652
     },
     "openingHoursSpecification": [
-      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday"], "opens": "13:00", "closes": "16:00" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Wednesday","Thursday"], "opens": "13:00", "closes": "16:00" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Thursday","Friday","Saturday"], "opens": "20:00", "closes": "23:00" },
       { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Friday","Saturday"], "opens": "13:00", "closes": "16:00" },
-      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Friday","Saturday"], "opens": "20:00", "closes": "23:00" },
       { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Sunday"], "opens": "13:00", "closes": "16:30" }
     ],
     "aggregateRating": {
@@ -803,7 +803,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </a>
   <ul class="nav-links" id="navLinks">
     <li><a href="#especialidades">Cocina</a></li>
-    <li><a href="#menu-semana">Menú</a></li>
+    <li id="nav-menu"><a href="#menu-semana">Menú</a></li>
     <li><a href="#carta">Carta</a></li>
     <li><a href="#premio"><i class="fa-solid fa-trophy" style="margin-right:.35rem;color:var(--color-accent)"></i>Premio</a></li>
     <li><a href="#paellas">Paellas</a></li>
@@ -1466,13 +1466,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <h3 style="font-family:var(--font-serif);font-size:1.2rem;color:var(--color-primary);margin-bottom:1rem">Horario</h3>
         <table class="horario">
           <tr><td>Lunes</td><td>13:00 – 16:00</td></tr>
-          <tr><td>Martes</td><td>13:00 – 16:00</td></tr>
+          <tr id="hr-martes"><td>Martes</td><td>13:00 – 16:00</td></tr>
           <tr><td>Miércoles</td><td>13:00 – 16:00</td></tr>
-          <tr><td>Jueves</td><td>13:00 – 16:00</td></tr>
+          <tr id="hr-jueves"><td>Jueves</td><td>13:00 – 16:00</td></tr>
           <tr><td>Viernes</td><td>13:00 – 16:00</td><td class="extra">+ 20:00 – 23:00</td></tr>
           <tr><td>Sábado</td><td>13:00 – 16:00</td><td class="extra">+ 20:00 – 23:00</td></tr>
           <tr><td>Domingo</td><td>13:00 – 16:30</td></tr>
         </table>
+        <p id="aviso-martes" style="display:none;margin-top:.75rem;font-size:.85rem;color:#b94a48;font-weight:600">⚠️ Los martes cerramos hasta el 8 de septiembre</p>
 
         <div class="c-info">
           <div class="c-row">
@@ -1646,8 +1647,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const optCena = horaSelect.querySelector('optgroup[label^="Cena"]');
     if (fecha) {
       const [y, m, d] = fecha.split('-');
-      const diaSemana = new Date(y, m - 1, d).getDay(); // 0=dom,5=vie,6=sab
-      const hayCena = diaSemana === 5 || diaSemana === 6;
+      const diaSemana = new Date(y, m - 1, d).getDay(); // 0=dom,4=jue,5=vie,6=sab
+      const fechaMs = new Date(y, m - 1, d).getTime();
+      const jueNocheInicio = new Date(2026, 5, 18).getTime(); // 18 jun
+      const jueNocheFin   = new Date(2026, 8, 10).getTime(); // 10 sep
+      const juevesCena = diaSemana === 4 && fechaMs >= jueNocheInicio && fechaMs <= jueNocheFin;
+      const hayCena = diaSemana === 5 || diaSemana === 6 || juevesCena;
       optCena.disabled = !hayCena;
       optCena.style.display = hayCena ? '' : 'none';
       // Si tenía hora de cena seleccionada y ya no hay cena, resetear
@@ -1894,6 +1899,43 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       if (!isOpen) item.classList.add('open');
     });
   });
+
+  // Horario verano
+  (function() {
+    const hoy = new Date();
+    hoy.setHours(0,0,0,0);
+
+    const JUE_NOCHE_INI = new Date(2026, 5, 18); // 18 jun
+    const JUE_NOCHE_FIN = new Date(2026, 8, 10); // 10 sep
+    const SIN_MENU_INI  = new Date(2026, 5, 19); // 19 jun
+    const SIN_MENU_FIN  = new Date(2026, 8, 14); // 14 sep
+    const MARTES_CERRADO_INI = new Date(2026, 6,  7); // 7 jul
+    const MARTES_CERRADO_FIN = new Date(2026, 8,  8); // 8 sep
+
+    // Jueves noche
+    if (hoy >= JUE_NOCHE_INI && hoy <= JUE_NOCHE_FIN) {
+      const trJueves = document.getElementById('hr-jueves');
+      if (trJueves) {
+        trJueves.innerHTML = '<td>Jueves</td><td>13:00 – 16:00</td><td class="extra">+ 20:00 – 23:00</td>';
+      }
+    }
+
+    // Sin menú semanal
+    if (hoy >= SIN_MENU_INI && hoy <= SIN_MENU_FIN) {
+      const secMenu = document.getElementById('menu-semana');
+      const navMenu = document.getElementById('nav-menu');
+      if (secMenu) secMenu.style.display = 'none';
+      if (navMenu) navMenu.style.display = 'none';
+    }
+
+    // Martes cerrado
+    if (hoy >= MARTES_CERRADO_INI && hoy <= MARTES_CERRADO_FIN) {
+      const trMartes = document.getElementById('hr-martes');
+      const aviso   = document.getElementById('aviso-martes');
+      if (trMartes) trMartes.innerHTML = '<td style="text-decoration:line-through;opacity:.5">Martes</td><td style="opacity:.5">Cerrado</td>';
+      if (aviso) aviso.style.display = '';
+    }
+  })();
 </script>
 </body>
 </html>
