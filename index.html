@@ -1652,7 +1652,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       const jueNocheInicio = new Date(2026, 5, 18).getTime(); // 18 jun
       const jueNocheFin   = new Date(2026, 8, 10).getTime(); // 10 sep
       const juevesCena = diaSemana === 4 && fechaMs >= jueNocheInicio && fechaMs <= jueNocheFin;
-      const hayCena = diaSemana === 5 || diaSemana === 6 || juevesCena;
+      const sanJuan = fechaMs === new Date(2026, 5, 23).getTime(); // verbena Sant Joan
+      const hayCena = diaSemana === 5 || diaSemana === 6 || juevesCena || sanJuan;
       optCena.disabled = !hayCena;
       optCena.style.display = hayCena ? '' : 'none';
       // Si tenía hora de cena seleccionada y ya no hay cena, resetear
