@@ -1649,7 +1649,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       const [y, m, d] = fecha.split('-');
       const diaSemana = new Date(y, m - 1, d).getDay(); // 0=dom,4=jue,5=vie,6=sab
       const fechaMs = new Date(y, m - 1, d).getTime();
-      const jueNocheInicio = new Date(2026, 5, 18).getTime(); // 18 jun
+      const jueNocheInicio = new Date(2026, 6, 2).getTime(); // 2 jul
       const jueNocheFin   = new Date(2026, 8, 10).getTime(); // 10 sep
       const juevesCena = diaSemana === 4 && fechaMs >= jueNocheInicio && fechaMs <= jueNocheFin;
       const sanJuan = fechaMs === new Date(2026, 5, 23).getTime(); // verbena Sant Joan
@@ -1906,7 +1906,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const hoy = new Date();
     hoy.setHours(0,0,0,0);
 
-    const JUE_NOCHE_INI = new Date(2026, 5, 18); // 18 jun
+    const JUE_NOCHE_INI = new Date(2026, 6, 2); // 2 jul
     const JUE_NOCHE_FIN = new Date(2026, 8, 10); // 10 sep
     const SIN_MENU_INI  = new Date(2026, 5, 19); // 19 jun
     const SIN_MENU_FIN  = new Date(2026, 8, 14); // 14 sep
