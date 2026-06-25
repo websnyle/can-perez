@@ -1911,12 +1911,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const SIN_MENU_INI  = new Date(2026, 5, 19); // 19 jun
     const SIN_MENU_FIN  = new Date(2026, 8, 14); // 14 sep
 
-    // Fuera del periodo de cierre: martes abierto normal
-    if (hoy < MARTES_CERRADO_INI || hoy > MARTES_CERRADO_FIN) {
-      const trMartes = document.getElementById('hr-martes');
-      if (trMartes) trMartes.innerHTML = '<td>Martes</td><td>13:00 – 16:00</td>';
-    }
-
     // Jueves noche
     if (hoy >= JUE_NOCHE_INI && hoy <= JUE_NOCHE_FIN) {
       const trJueves = document.getElementById('hr-jueves');
