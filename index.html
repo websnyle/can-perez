@@ -1466,14 +1466,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <h3 style="font-family:var(--font-serif);font-size:1.2rem;color:var(--color-primary);margin-bottom:1rem">Horario</h3>
         <table class="horario">
           <tr><td>Lunes</td><td>13:00 – 16:00</td></tr>
-          <tr id="hr-martes"><td>Martes</td><td>13:00 – 16:00</td></tr>
+          <tr id="hr-martes"><td>Martes</td><td>Cerrado</td><td class="extra" style="opacity:.65">(excepto festivos)</td></tr>
           <tr><td>Miércoles</td><td>13:00 – 16:00</td></tr>
           <tr id="hr-jueves"><td>Jueves</td><td>13:00 – 16:00</td></tr>
           <tr><td>Viernes</td><td>13:00 – 16:00</td><td class="extra">+ 20:00 – 23:00</td></tr>
           <tr><td>Sábado</td><td>13:00 – 16:00</td><td class="extra">+ 20:00 – 23:00</td></tr>
           <tr><td>Domingo</td><td>13:00 – 16:30</td></tr>
         </table>
-        <p id="aviso-martes" style="display:none;margin-top:.75rem;font-size:.85rem;color:#b94a48;font-weight:600">⚠️ Los martes cerramos hasta el 8 de septiembre</p>
 
         <div class="c-info">
           <div class="c-row">
@@ -1652,8 +1651,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       const jueNocheInicio = new Date(2026, 6, 2).getTime(); // 2 jul
       const jueNocheFin   = new Date(2026, 8, 10).getTime(); // 10 sep
       const juevesCena = diaSemana === 4 && fechaMs >= jueNocheInicio && fechaMs <= jueNocheFin;
-      const sanJuan = fechaMs === new Date(2026, 5, 23).getTime(); // verbena Sant Joan
-      const hayCena = diaSemana === 5 || diaSemana === 6 || juevesCena || sanJuan;
+      const hayCena = diaSemana === 5 || diaSemana === 6 || juevesCena;
       optCena.disabled = !hayCena;
       optCena.style.display = hayCena ? '' : 'none';
       // Si tenía hora de cena seleccionada y ya no hay cena, resetear
@@ -1906,12 +1904,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const hoy = new Date();
     hoy.setHours(0,0,0,0);
 
+    const MARTES_CERRADO_INI = new Date(2026, 5, 30); // 30 jun
+    const MARTES_CERRADO_FIN = new Date(2026, 8,  8); // 8 sep
     const JUE_NOCHE_INI = new Date(2026, 6, 2); // 2 jul
     const JUE_NOCHE_FIN = new Date(2026, 8, 10); // 10 sep
     const SIN_MENU_INI  = new Date(2026, 5, 19); // 19 jun
     const SIN_MENU_FIN  = new Date(2026, 8, 14); // 14 sep
-    const MARTES_CERRADO_INI = new Date(2026, 6,  7); // 7 jul
-    const MARTES_CERRADO_FIN = new Date(2026, 8,  8); // 8 sep
+
+    // Fuera del periodo de cierre: martes abierto normal
+    if (hoy < MARTES_CERRADO_INI || hoy > MARTES_CERRADO_FIN) {
+      const trMartes = document.getElementById('hr-martes');
+      if (trMartes) trMartes.innerHTML = '<td>Martes</td><td>13:00 – 16:00</td>';
+    }
 
     // Jueves noche
     if (hoy >= JUE_NOCHE_INI && hoy <= JUE_NOCHE_FIN) {
@@ -1929,13 +1933,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       if (navMenu) navMenu.style.display = 'none';
     }
 
-    // Martes cerrado
-    if (hoy >= MARTES_CERRADO_INI && hoy <= MARTES_CERRADO_FIN) {
-      const trMartes = document.getElementById('hr-martes');
-      const aviso   = document.getElementById('aviso-martes');
-      if (trMartes) trMartes.innerHTML = '<td style="text-decoration:line-through;opacity:.5">Martes</td><td style="opacity:.5">Cerrado</td>';
-      if (aviso) aviso.style.display = '';
-    }
   })();
 </script>
 </body>
