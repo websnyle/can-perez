@@ -1645,31 +1645,43 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const fecha = this.value;
     const horaSelect = document.getElementById('r-hora');
     const optCena = horaSelect.querySelector('optgroup[label^="Cena"]');
-    if (fecha) {
-      const [y, m, d] = fecha.split('-');
-      const diaSemana = new Date(y, m - 1, d).getDay(); // 0=dom,4=jue,5=vie,6=sab
-      const fechaMs = new Date(y, m - 1, d).getTime();
-      const jueNocheInicio = new Date(2026, 6, 2).getTime(); // 2 jul
-      const jueNocheFin   = new Date(2026, 8, 10).getTime(); // 10 sep
-      const juevesCena = diaSemana === 4 && fechaMs >= jueNocheInicio && fechaMs <= jueNocheFin;
-      const hayCena = diaSemana === 5 || diaSemana === 6 || juevesCena;
-      optCena.disabled = !hayCena;
-      optCena.style.display = hayCena ? '' : 'none';
-      if (!hayCena && getTurno(horaSelect.value) === 'cena') horaSelect.value = '';
+    const msg = document.getElementById('fecha-completo-msg');
+    const btn = document.querySelector('.btn-wa-submit');
 
-      // Martes cerrado 30 jun – 8 sep
-      const martesCerradoIni = new Date(2026, 5, 30).getTime();
-      const martesCerradoFin = new Date(2026, 8,  8).getTime();
-      const msg = document.getElementById('fecha-completo-msg');
-      const btn = document.querySelector('.btn-wa-submit');
-      if (diaSemana === 2 && fechaMs >= martesCerradoIni && fechaMs <= martesCerradoFin) {
-        msg.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Los martes estamos cerrados hasta el 8 de septiembre.';
-        msg.style.display = 'block';
-        btn.disabled = true;
-        btn.style.opacity = '.45';
-        return;
-      }
+    // Reset estado
+    msg.style.display = 'none';
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    horaSelect.disabled = false;
+
+    if (!fecha) return;
+
+    const [y, m, d] = fecha.split('-');
+    const diaSemana = new Date(y, m - 1, d).getDay();
+    const fechaMs   = new Date(y, m - 1, d).getTime();
+
+    // Martes cerrado 30 jun – 8 sep
+    const martesCerradoIni = new Date(2026, 5, 30).getTime();
+    const martesCerradoFin = new Date(2026, 8,  8).getTime();
+    if (diaSemana === 2 && fechaMs >= martesCerradoIni && fechaMs <= martesCerradoFin) {
+      horaSelect.value = '';
+      horaSelect.disabled = true;
+      msg.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Los martes estamos cerrados hasta el 8 de septiembre.';
+      msg.style.display = 'block';
+      btn.disabled = true;
+      btn.style.opacity = '.45';
+      return;
     }
+
+    // Cena: solo vie, sab y jue de verano
+    const jueNocheInicio = new Date(2026, 6, 2).getTime();
+    const jueNocheFin    = new Date(2026, 8, 10).getTime();
+    const juevesCena = diaSemana === 4 && fechaMs >= jueNocheInicio && fechaMs <= jueNocheFin;
+    const hayCena = diaSemana === 5 || diaSemana === 6 || juevesCena;
+    optCena.disabled = !hayCena;
+    optCena.style.display = hayCena ? '' : 'none';
+    if (!hayCena && getTurno(horaSelect.value) === 'cena') horaSelect.value = '';
+
     checkBloqueo();
   });
   document.getElementById('r-hora').addEventListener('change', checkBloqueo);
