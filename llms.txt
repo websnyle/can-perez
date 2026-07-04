@@ -1,27 +1,34 @@
 # Can Pérez
 
-> Restaurante en Castelldefels especializado en arroces, paellas, brasas y mariscos frescos. Premio al mejor restaurante. 4,7★ Google · 9,5 TheFork.
+> Restaurante en Castelldefels especializado en arroces, paellas, brasas y mariscos frescos. Premio Tenedor de Oro 2025 al Mejor Restaurante de Castelldefels. 4,7★ Google · 9,5 TheFork.
 
-## Información general
+## Páginas principales
+
+- [Inicio](https://canperez.es/): Web principal con información del restaurante, carta, horarios y reservas.
+- [Carta digital](https://canperez.es/carta.html): Carta completa con todos los platos y precios.
+
+## Información de contacto
 
 - Dirección: Av. de la Constitució, 135, 08860 Castelldefels, Barcelona
 - Teléfono: 611 83 68 13
-- Web: https://canperez.es/
+- Reservas online: https://canperez.es/#reservas
 
 ## Horario
 
 - Lunes: 13:00 – 16:00
-- Martes: Cerrado (excepto festivos)
+- Martes: Cerrado (excepto festivos). Cerrado también de lunes 30 jun al 8 sep.
 - Miércoles: 13:00 – 16:00
-- Jueves: 13:00 – 16:00 (+ 20:00 – 23:00 en verano)
+- Jueves: 13:00 – 16:00 (+ 20:00 – 23:00 del 2 jul al 10 sep)
 - Viernes: 13:00 – 16:00 · 20:00 – 23:00
 - Sábado: 13:00 – 16:00 · 20:00 – 23:00
 - Domingo: 13:00 – 16:30
 
-## Carta
+## Especialidades
 
-Especialidades: arroces caldosos, paellas (fines de semana y festivos), brasas, pescados frescos y mariscos. Menú diario de lunes a viernes (excepto verano).
+Arroces caldosos, paellas (fines de semana y festivos, mínimo 2 personas), brasas, pescados frescos y mariscos. Menú diario de lunes a viernes (excepto verano, del 19 jun al 14 sep).
 
-## Reservas
+## Optional
 
-Reservas online en https://canperez.es/#reservas o por teléfono al 611 83 68 13.
+- [Instagram](https://www.instagram.com/canperez.restaurant/): Fotos y novedades del restaurante.
+- [TheFork](https://www.thefork.es/restaurante/can-perez-r836522): Reseñas y reservas en TheFork.
+- [Google Maps](https://maps.app.goo.gl/8nzvcwu8HPJ9xXzg6): Ubicación y reseñas en Google.
