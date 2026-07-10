@@ -1878,6 +1878,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     });
   });
 
+  // Analytics — tracking de contacto y reservas
+  function trackEvt(name, params) {
+    dataLayer.push(Object.assign({ event: name }, params || {}));
+  }
+  // WhatsApp clicks
+  document.querySelectorAll('a[href*="wa.me"]').forEach(function(el) {
+    el.addEventListener('click', function() {
+      trackEvt('whatsapp_contact', { link_text: el.textContent.trim() || 'whatsapp' });
+    });
+  });
+  // Teléfono clicks
+  document.querySelectorAll('a[href^="tel:"]').forEach(function(el) {
+    el.addEventListener('click', function() {
+      trackEvt('phone_contact');
+    });
+  });
+  // CoverManager iframe — cuando carga el widget de reservas
+  var cmIframe = document.getElementById('restaurante-can-perez');
+  if (cmIframe) {
+    cmIframe.addEventListener('load', function() {
+      trackEvt('reservation_widget_view');
+    });
+  }
+
   // Horario verano
   (function() {
     const hoy = new Date();
